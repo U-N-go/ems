@@ -1,2 +1,2 @@
 # ems
-equipment manager sysytem
+equipment manager system
