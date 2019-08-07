@@ -1,2 +1,2 @@
 # ems
-equipment manager system
+equipment management system
