@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    author:赵赫
+-->
+<mapper namespace="com.example.demo.sbww.mapper.ErrorMapper">
+    <resultMap id="ERROR" type="com.example.demo.sbww.domain.Error">
+        <id column="err_id"  property="err_id" />
+        <result column="err_code"  property="err_code" />
+        <result column="err_info"  property="err_info" />
+    </resultMap>
+    <insert id="InsertErr">
+        insert into error set err_code=#{code},err_info=#{info}
+    </insert>
+    <select id="ShowErr" resultMap="ERROR">
+        select err_code,err_info,err_id from error
+    </select>
+    <delete id="DeleteErr" parameterType="String">
+        delete from error where err_code=#{code};
+    </delete>
+</mapper>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    author:赵赫
+-->
+<mapper namespace="com.example.demo.sbww.mapper.AlarmMapper">
+    <resultMap id="Alarm" type="com.example.demo.sbww.domain.Alarm">
+        <id column="ala_id"  property="ala_id" />
+        <result column="equ_code"  property="equipment.equ_code" />
+        <result column="equ_type"  property="equipment.equ_type" />
+        <result column="err_info"  property="error.err_info" />
+        <result column="sub_date"  property="sub_date" />
+        <result column="sol_date"  property="sol_date" />
+        <result column="sol_method"  property="sol_method" />
+    </resultMap>
+    <insert id="InsertAlarm">
+        insert into employee set emp_name=#{user},password=#{password},emp_phone=#{phone}
+    </insert>
+    <select id="ShowAlarm" resultMap="Alarm">
+-- 多表联合查询通过传来的用户id确定哪一个设备
+        select b.equ_code,d.err_info,sub_date,sol_date,sol_method from employee a left join equipment b on a.equ_id=b.equ_id
+                            left join alarm c on a.equ_id=c.equ_id
+                          left join error d on c.err_id=d.err_id where a.emp_name=#{empname}
+    </select>
+    <select id="ShowAlarm_u" resultMap="Alarm">
+-- 多表联合查询所有
+        select b.equ_code,d.err_info,equ_type,ala_id,ala_intro,sub_date,sol_date,sol_method from alarm c left join equipment b on c.equ_id=b.equ_id
+                            left join employee a on a.equ_id=c.equ_id
+                          left join error d on c.err_id=d.err_id where sol_date is not null limit 0,7
+    </select>
+    <select id="ShowAlarm_u1" resultMap="Alarm">
+-- 多表联合查询所有
+        select b.equ_code,d.err_info,equ_type,ala_id,ala_intro,sub_date,sol_date,sol_method from alarm c left join equipment b on c.equ_id=b.equ_id
+                            left join employee a on a.equ_id=c.equ_id
+                          left join error d on c.err_id=d.err_id where sol_date is null limit #{val},7
+    </select>
+    <update id="SubmitAlarm">
+        update alarm set sol_date=#{sol_date},sol_method=#{sol_method} where ala_id=#{ala_id};
+    </update>
+    <select id="CountAlarm" resultMap="Alarm">
+-- 返回总共记录数
+        select count(*) from alarm where sol_date is not null
+    </select>
+    <select id="CurrentAlarm" resultMap="Alarm">
+-- 返回当前页的值
+        select b.equ_code,d.err_info,equ_type,ala_id,ala_intro,sub_date,sol_date,sol_method from alarm c left join equipment b on c.equ_id=b.equ_id
+                            left join employee a on a.equ_id=c.equ_id
+                          left join error d on c.err_id=d.err_id where sol_date is not null limit #{current},7
+    </select>
+</mapper>

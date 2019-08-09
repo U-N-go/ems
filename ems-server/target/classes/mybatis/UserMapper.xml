@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    author:赵赫
+-->
+<mapper namespace="com.example.demo.sbww.mapper.UserMapper">
+    <resultMap id="USER" type="com.example.demo.sbww.domain.User">
+        <id column="USERID"  property="userid" />
+        <result column="USER_NAME"  property="user_name" />
+        <result column="PASSWORD"  property="password" />
+    </resultMap>
+    <!--<select id="queryUserList" resultType="user">-->
+        <!--select * from t_user-->
+    <!--</select>-->
+    <!--<select id="selectByPrimaryKey" resultMap="USER">-->
+        <!--select * from t_user where user_id=#{id}-->
+    <!--</select>-->
+    <insert id="InsertUser">
+        insert into user set user_name=#{user},password=#{password}
+    </insert>
+    <select id="LoginUser" resultMap="USER">
+        select * from user where password=#{password} and user_name=#{user}
+    </select>
+    <select id="ShowUser" resultMap="USER">
+        select * from user limit #{a},7
+    </select>
+    <delete id="DeleteUser" parameterType="String">
+        delete from user where user_name=#{user};
+    </delete>
+    <update id="UpdatePassword_u">
+        update user set password=#{password} where user_name=#{user};
+    </update>
+</mapper>

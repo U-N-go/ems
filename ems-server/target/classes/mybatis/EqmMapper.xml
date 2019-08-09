@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    显示设备信息等功能的xml
+    author：赵赫
+-->
+<mapper namespace="com.example.demo.sbww.mapper.EqmMapper">
+    <resultMap id="eqm" type="com.example.demo.sbww.domain.Equipment">
+        <!--<id column="equ_id"  property="equ_id" />-->
+        <result column="equ_type"  property="equ_type" />
+        <result column="equ_code"  property="equ_code" />
+        <result column="equ_positon"  property="equ_positon" />
+        <result column="producer" property="producer" />
+        <result column="buy_date" property="buy_date"/>
+        <result column="warranty_date" property="warranty_date" />
+        <result column="aftersales_manager" property="aftersales_manager"/>
+        <result column="aftersales_hotline" property="aftersales_hotline"/>
+        <result column="emp_name" property="emp.emp_name"/>
+        <result column="password" property="emp.password"/>
+    </resultMap>
+    <select id="ShowEqu" resultMap="eqm">
+        select equ_type,equ_code,equ_positon,producer,buy_date,warranty_date,
+              emp_name,aftersales_manager,aftersales_hotline  from equipment a
+            left join employee b on a.equ_id=b.equ_id
+    </select>
+</mapper>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    author:赵赫
+-->
+<mapper namespace="com.example.demo.sbww.mapper.EmpMapper">
+    <resultMap id="EMP" type="com.example.demo.sbww.domain.Employee">
+        <id column="emp_id"  property="emp_id" />
+        <result column="emp_name"  property="emp_name" />
+        <result column="password"  property="password" />
+        <result column="emp_phone"  property="emp_phone" />
+        <result column="equ_id"  property="equ_id" />
+        <result column="take_date"  property="take_date" />
+    </resultMap>
+    <insert id="InsertEmp">
+        insert into employee set emp_name=#{user},password=#{password},emp_phone=#{phone}
+    </insert>
+    <select id="LoginEmp" resultMap="EMP">
+        select * from employee where password=#{password} and emp_name=#{user}
+    </select>
+    <select id="ShowEmp" resultMap="EMP">
+        select emp_name,password,emp_phone,emp_type,take_date from employee
+    </select>
+    <delete id="DeleteEmp" parameterType="String">
+        delete from employee where emp_name=#{user};
+    </delete>
+    <update id="UpdatePassword">
+        update employee set password=#{password} where emp_name=#{name};
+    </update>
+</mapper>
